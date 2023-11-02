@@ -60,19 +60,9 @@ while(i<=144){
 }
 
 #--------------------------------- ii correegido -------------------------------
-valores_u_al_cuadrado<-c()
-for (u in datos_u){
-  u_al_cuadrado<-u^2
-  valores_u_al_cuadrado<-c(valores_u_al_cuadrado,u_al_cuadrado)
-}
-
-valores_v_al_cuadrado<-c()
-for (v in datos_v){
-  v_al_cuadrado<-v^2
-  valores_v_al_cuadrado<-c(valores_v_al_cuadrado,v_al_cuadrado)
-}
-
-veloc_viento <- sqrt(valores_u_al_cuadrado+valores_v_al_cuadrado)
+u_al_cuadrado<-datos_u**2
+v_al_cuadrado<-datos_v**2
+velocidad_viento<-sqrt(u_al_cuadrado+v_al_cuadrado)
 #--------------------------------- iii -----------------------------------------
 #QUE DIMENSIONES DEBERIA TENER veloc_viento? HASTA AHORA EN EL CODIGO ES UN ESCALAR
 #LAS DIMENSIONES DEL NUEVO ARRAY DEBERIAN SER (73,144,12,3) Y LOS NOMBRES ESTAN BIEN
@@ -83,8 +73,9 @@ veloc_viento <- sqrt(valores_u_al_cuadrado+valores_v_al_cuadrado)
 #posiciones de las dimensiones del array con la latitud, longitud y mes correspondiente.
 
 #ACLARACI?N: no llegue a hacer el ii pero igualmente segu? como si estuviera hecho
-array_todos<-array(data=c(datos_u,datos_v,veloc_viento),dim=c(73,144,12))
+array_todos<-array(data=c(datos_u,datos_v,velocidad_viento),dim=c(73,144,12))
 dimnames(array_todos)<-list(latitudes,longitudes,meses)
+dim(array_todos)
 
 #--------------------------------- iv ------------------------------------------
 #ENCUENTRA EL MAXIMO DE LAS COMPONENTES, PERO NO EL MAXIMO DE LA VELOCIDAD, 
@@ -95,11 +86,12 @@ dimnames(array_todos)<-list(latitudes,longitudes,meses)
 #con el resultado en el siguiente formato: ?La velocidad maxima de viento se 
 #registro el mes XMes en la latitud XLat (N/S) y longitud XLon W?.
 
-maximo<-max(array_todos)
-posic_max<-which(array_todos==maximo,arr.ind = T)
+maximo<-max(velocidad_viento)
+posic_max<-which(velocidad_viento==maximo,arr.ind = T)
 XLat<-posic_max[1]
 XLon<-posic_max[2]
 XMes<-posic_max[3]
 
 print(paste("La velocidad maxima del viento se registr? en el mes",XMes,
             "en la latitud", XLat,"(N/S) y longitud",XLon,"W" ))
+
